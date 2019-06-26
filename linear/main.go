@@ -34,20 +34,13 @@ func (n *Neuron) think(inputs []float64) float64 {
 
 func (n *Neuron) train(trainingSetInputs [][]float64, trainingSetOutputs []float64, iterations int) {
 	for i := 0; i < iterations; i++ {
-		adjustments := make([]float64, len(n.weights))
-
 		for setIdx, inputs := range trainingSetInputs {
 			output := n.think(inputs)
 			err := trainingSetOutputs[setIdx] - output
-			// fmt.Printf("Err: %f, Output: %f\n", err, output)
 
 			for col := 0; col < len(n.weights); col++ {
-				adjustments[col] += trainingSetInputs[setIdx][col] * err / 1000
+				n.weights[col] += trainingSetInputs[setIdx][col] * err / 1000
 			}
-		}
-
-		for i := 0; i < len(n.weights); i++ {
-			n.weights[i] += adjustments[i]
 		}
 	}
 }
